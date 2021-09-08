@@ -31,24 +31,6 @@ def DownBlock(input, filters, kernel_size, padding, activation, kernel_initializ
     return [out, shortcut]
 ########################################################################################################################
 
-def RESBridgeBlock(input, filters,no_of_resnetblocks,kernel_size, padding, activation, kernel_initializer):
-
-    ############################################
-    f_in = filters
-    out = input
-    for i in range(no_of_resnetblocks):
-        shortcut = out
-        out = Conv2D_BatchNorm(out, filters=f_in, kernel_size=1, strides=1, padding=padding,
-                               activation=activation, kernel_initializer=kernel_initializer)
-        out = Conv2D_BatchNorm(out, filters=f_in, kernel_size=kernel_size, strides=1, padding=padding,
-                               activation=activation, kernel_initializer=kernel_initializer)
-        out = Add()([out, shortcut])
-    out = UpSample(out, f_in*2, kernel_size, strides=2, padding=padding,activation=activation, kernel_initializer=kernel_initializer)
-    ############################################
-    return out
-########################################################################################################################
-
-
 def UpBlock(input, filters, kernel_size, padding, activation, kernel_initializer):
     ############################################
     out = Conv2D_BatchNorm(input, filters=filters // 2, kernel_size=1, strides=1, padding=padding,
