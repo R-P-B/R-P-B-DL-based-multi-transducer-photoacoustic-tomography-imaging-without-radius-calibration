@@ -23,7 +23,7 @@ def convlstm(input, filters, kernel_size, padding, activation, kernel_initialize
 def DownBlock(input, filters, kernel_size, padding, activation, kernel_initializer):
     ############################################
     out = FD_Block(input, f_in=filters // 2, f_out=filters, k=filters // 8, kernel_size=3, padding='same',
-                   activation='linear', kernel_initializer='glorot_normal')
+                   activation=activation, kernel_initializer='glorot_normal')
     shortcut = out
     out = DownSample(out, filters, kernel_size, strides=2, padding=padding,
                      activation=activation, kernel_initializer=kernel_initializer)
@@ -34,9 +34,9 @@ def DownBlock(input, filters, kernel_size, padding, activation, kernel_initializ
 def UpBlock(input, filters, kernel_size, padding, activation, kernel_initializer):
     ############################################
     out = Conv2D_BatchNorm(input, filters=filters // 2, kernel_size=1, strides=1, padding=padding,
-                           activation='linear', kernel_initializer=kernel_initializer)
+                           activation=activation, kernel_initializer=kernel_initializer)
     out = FD_Block(input, f_in=filters // 2, f_out=filters, k=filters // 8, kernel_size=3, padding='same',
-                   activation='linear', kernel_initializer='glorot_normal')
+                   activation=activation, kernel_initializer='glorot_normal')
     out = UpSample(out, filters , kernel_size, strides=2, padding=padding,
                    activation=activation, kernel_initializer=kernel_initializer)
     ############################################
